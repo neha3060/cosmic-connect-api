@@ -32,6 +32,10 @@ app.post('/api/bookings', async (req, res) => {
 });
 
 app.get('/api/bookings', async (req, res) => {
+  const key = req.query.key;
+  if (key !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
   const result = await db.execute('SELECT * FROM bookings ORDER BY created_at DESC');
   res.json(result.rows);
 });
