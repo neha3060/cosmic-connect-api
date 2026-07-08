@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Connect — Tarot Sessions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0a0d1e;
+    --indigo:#141936;
+    --midnight:#232a52;
+    --gold:#c9a15a;
+    --gold-soft:#e3c98a;
+    --ember:#b8654a;
+    --starlight:#f3efe4;
+    --parchment:#ede7d8;
+    --ink:#191533;
+    --line: rgba(201,161,90,0.28);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--starlight);
+    font-family:'Cormorant Garamond', serif;
+    font-size:19px;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+
+  h1,h2,h3{font-weight:500; letter-spacing:0.01em;}
+  .script{font-family:'Caveat', cursive; font-weight:700;}
+  .mono{font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:0.14em;}
+
+  /* ---------- starfield ---------- */
+  .stars{
+    position:fixed; inset:0; z-index:-2;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(80,70,140,0.35), transparent 55%),
+      radial-gradient(ellipse at 80% 30%, rgba(60,90,160,0.25), transparent 60%),
+      var(--void);
+  }
+  .stars::before, .stars::after{
+    content:""; position:absolute; inset:0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 20px 30px, #fff, transparent),
+      radial-gradient(1px 1px at 90px 120px, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 160px 60px, var(--gold-soft), transparent),
+      radial-gradient(1px 1px at 230px 200px, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 300px 90px, #fff, transparent),
+      radial-gradient(1px 1px at 340px 250px, var(--gold-soft), transparent),
+      radial-gradient(1.5px 1.5px at 30px 220px, #fff, transparent),
+      radial-gradient(1px 1px at 400px 40px, #fff, transparent);
+    background-repeat:repeat;
+    background-size:420px 280px;
+    opacity:0.8;
+  }
+  .stars::after{
+    background-position:80px 140px;
+    animation:twinkle 6s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{ from{opacity:0.3;} to{opacity:0.9;} }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 6vw;
+    background:rgba(10,13,30,0.75);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand img{width:44px; height:44px; border-radius:50%; object-fit:cover; border:1px solid var(--line);}
+  .brand span{font-family:'Caveat', cursive; font-weight:700; font-size:1.7rem; color:var(--gold-soft);}
+  nav{display:flex; gap:2.2rem;}
+  nav a{
+    font-family:'Space Mono', monospace; font-size:0.72rem;
+    text-transform:uppercase; letter-spacing:0.14em;
+    text-decoration:none; color:var(--starlight); opacity:0.75;
+    transition:opacity 0.2s, color 0.2s;
+  }
+  nav a:hover{opacity:1; color:var(--gold-soft);}
+  @media (max-width:720px){ nav{display:none;} }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:92vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:6rem 6vw 4rem;
+    position:relative;
+  }
+  .hero-logo{
+    width:200px; height:200px; border-radius:50%;
+    object-fit:cover;
+    box-shadow:0 0 0 1px var(--line), 0 0 60px rgba(201,161,90,0.25);
+    margin-bottom:2.2rem;
+  }
+  .eyebrow{
+    font-family:'Space Mono', monospace; font-size:0.75rem;
+    letter-spacing:0.3em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:1rem;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 6vw, 4.4rem);
+    font-style:italic; font-weight:500;
+    color:var(--starlight);
+    max-width:16ch;
+    margin-bottom:1.3rem;
+  }
+  .hero h1 em{ color:var(--gold-soft); font-style:italic; }
+  .hero p.lede{
+    max-width:46ch; color:rgba(243,239,228,0.78);
+    font-size:1.2rem; margin-bottom:2.4rem;
+  }
+  .btn{
+    display:inline-block;
+    font-family:'Space Mono', monospace; font-size:0.78rem;
+    letter-spacing:0.16em; text-transform:uppercase;
+    padding:1rem 2.2rem;
+    border:1px solid var(--gold);
+    color:var(--void);
+    background:var(--gold);
+    text-decoration:none;
+    border-radius:2px;
+    transition:transform 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(201,161,90,0.25); }
+  .btn.ghost{
+    background:transparent; color:var(--starlight); border-color:var(--line);
+  }
+  .btn.ghost:hover{ border-color:var(--gold); color:var(--gold-soft); box-shadow:none;}
+
+  /* ---------- section shell ---------- */
+  section{ padding:6rem 6vw; position:relative; }
+  .section-head{ text-align:center; max-width:640px; margin:0 auto 3.5rem; }
+  .section-head .eyebrow{ margin-bottom:0.8rem; }
+  .section-head h2{ font-size:clamp(2rem, 4vw, 2.8rem); font-style:italic; color:var(--starlight); }
+  .section-head p{ color:rgba(243,239,228,0.7); margin-top:0.8rem; }
+
+  /* ---------- readings: moon phases ---------- */
+  .phases{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1.8rem;
+    max-width:1080px; margin:0 auto;
+  }
+  @media (max-width:860px){ .phases{ grid-template-columns:1fr; } }
+  .phase-card{
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(35,42,82,0.5), rgba(20,25,54,0.5));
+    padding:2.4rem 1.8rem;
+    border-radius:6px;
+    text-align:center;
+    transition:transform 0.25s, border-color 0.25s;
+  }
+  .phase-card:hover{ transform:translateY(-6px); border-color:var(--gold); }
+  .moon{
+    width:64px; height:64px; border-radius:50%;
+    margin:0 auto 1.4rem;
+    box-shadow: inset -14px -4px 0 0 var(--void);
+    background:var(--gold-soft);
+  }
+  .moon.full{ box-shadow:none; }
+  .moon.waning{ box-shadow: inset 14px -4px 0 0 var(--void); }
+  .phase-card h3{ font-style:italic; font-size:1.5rem; color:var(--gold-soft); margin-bottom:0.4rem; }
+  .phase-card .meta{ font-family:'Space Mono', monospace; font-size:0.72rem; letter-spacing:0.1em; color:var(--gold); text-transform:uppercase; margin-bottom:1rem; }
+  .phase-card p{ color:rgba(243,239,228,0.75); font-size:1rem; margin-bottom:1.4rem; }
+  .phase-card .price{ font-family:'Space Mono', monospace; font-size:1.1rem; color:var(--starlight); }
+
+  /* ---------- how it works ---------- */
+  .flow{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:2rem;
+    max-width:980px; margin:0 auto;
+  }
+  @media (max-width:860px){ .flow{ grid-template-columns:1fr; } }
+  .flow-step .mono{ color:var(--gold); font-size:0.7rem; display:block; margin-bottom:0.6rem;}
+  .flow-step h3{ font-style:italic; font-size:1.4rem; margin-bottom:0.6rem; color:var(--starlight);}
+  .flow-step p{ color:rgba(243,239,228,0.72); font-size:1rem; }
+
+  /* ---------- booking ---------- */
+  .booking-wrap{
+    max-width:720px; margin:0 auto;
+    background:linear-gradient(180deg, rgba(35,42,82,0.55), rgba(20,25,54,0.55));
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:3rem clamp(1.5rem, 5vw, 3.5rem);
+  }
+  form{ display:grid; gap:1.4rem; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; }
+  @media (max-width:600px){ .row2{ grid-template-columns:1fr; } }
+  label{
+    display:block; font-family:'Space Mono', monospace; font-size:0.7rem;
+    letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-soft);
+    margin-bottom:0.5rem;
+  }
+  input, select, textarea{
+    width:100%; padding:0.85rem 1rem;
+    background:rgba(10,13,30,0.6);
+    border:1px solid var(--line);
+    border-radius:4px;
+    color:var(--starlight);
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.05rem;
+  }
+  input:focus, select:focus, textarea:focus{
+    outline:none; border-color:var(--gold);
+  }
+  textarea{ resize:vertical; min-height:100px; }
+  form .btn{ border:none; cursor:pointer; justify-self:start; margin-top:0.4rem; }
+  .confirm{
+    display:none; text-align:center; padding:2rem 1rem;
+  }
+  .confirm.show{ display:block; }
+  .confirm h3{ font-style:italic; color:var(--gold-soft); font-size:1.6rem; margin-bottom:0.6rem; }
+  .confirm p{ color:rgba(243,239,228,0.78); }
+
+  /* ---------- about ---------- */
+  .about{
+    display:grid; grid-template-columns:220px 1fr; gap:3rem; align-items:center;
+    max-width:900px; margin:0 auto;
+  }
+  @media (max-width:700px){ .about{ grid-template-columns:1fr; text-align:center; } }
+  .about-badge{
+    width:200px; height:200px; border-radius:50%; margin:0 auto;
+    background:var(--indigo);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Caveat', cursive; font-size:1.4rem; color:var(--gold-soft);
+    text-align:center; padding:1.5rem;
+  }
+  .about h2{ font-style:italic; color:var(--starlight); font-size:2rem; margin-bottom:0.8rem; }
+  .about p{ color:rgba(243,239,228,0.75); }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:3rem 6vw 2.5rem;
+    display:flex; flex-wrap:wrap; gap:1.5rem;
+    align-items:center; justify-content:space-between;
+  }
+  footer .brand span{ font-size:1.4rem; }
+  footer .mono{ color:rgba(243,239,228,0.5); font-size:0.68rem; }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<header>
+  <div class="brand">
+    <img src="assets/logo.png" alt="Cosmic Connect">
+    <span>Cosmic Connect</span>
+  </div>
+  <nav>
+    <a href="#readings">Readings</a>
+    <a href="#how">How it works</a>
+    <a href="#book">Book</a>
+    <a href="#about">About</a>
+  </nav>
+  <a href="#book" class="btn ghost" style="padding:0.6rem 1.2rem;">Book now</a>
+</header>
+
+<section class="hero">
+  <img class="hero-logo" src="assets/logo.png" alt="Cosmic Connect logo">
+  <div class="eyebrow">Tarot · Guidance · Clarity</div>
+  <h1>Unlock the signs <em>meant for you.</em></h1>
+  <p class="lede">One-on-one tarot sessions held over video, for the moments you need a clearer read on what's ahead. No jargon, no scripts — just a real conversation with the cards.</p>
+  <a href="#book" class="btn">Book a reading</a>
+</section>
+
+<section id="readings">
+  <div class="section-head">
+    <div class="eyebrow">Choose your reading</div>
+    <h2>Every session follows a phase of the moon</h2>
+    <p>Pick the depth that matches what you're carrying right now.</p>
+  </div>
+  <div class="phases">
+    <div class="phase-card">
+      <div class="moon"></div>
+      <div class="meta">New Moon · 20 min</div>
+      <h3>Quick Check-In</h3>
+      <p>A focused 3-card pull for one question sitting on your mind. Good for a fast, honest read before you decide something.</p>
+      <div class="price">₹700</div>
+    </div>
+    <div class="phase-card">
+      <div class="moon full"></div>
+      <div class="meta">Full Moon · 50 min</div>
+      <h3>Deep Dive</h3>
+      <p>A full spread covering past, present and path forward. We slow down and actually talk through what the cards are showing.</p>
+      <div class="price">₹1,600</div>
+    </div>
+    <div class="phase-card">
+      <div class="moon waning"></div>
+      <div class="meta">Waning Moon · 35 min</div>
+      <h3>Love &amp; Connection</h3>
+      <p>A relationship-focused spread — romantic, family, or friendship. Bring the specific situation and we'll unpack it together.</p>
+      <div class="price">₹1,100</div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="section-head">
+    <div class="eyebrow">How a session runs</div>
+    <h2>Simple, from booking to insight</h2>
+  </div>
+  <div class="flow">
+    <div class="flow-step">
+      <span class="mono">Before</span>
+      <h3>You book a slot</h3>
+      <p>Pick a reading, choose a time below, and send over the question or situation you want the cards to speak to.</p>
+    </div>
+    <div class="flow-step">
+      <span class="mono">During</span>
+      <h3>We meet on video</h3>
+      <p>You'll get a link by email. The cards are drawn live — you see and hear everything as it unfolds, no pre-recording.</p>
+    </div>
+    <div class="flow-step">
+      <span class="mono">After</span>
+      <h3>You get a recap</h3>
+      <p>A short written summary of the spread lands in your inbox within a day, so you can sit with it after the call.</p>
+    </div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="section-head">
+    <div class="eyebrow">Reserve your time</div>
+    <h2>Book your session</h2>
+    <p>Fill this in and you'll get a confirmation email within 24 hours with your video link.</p>
+  </div>
+  <div class="booking-wrap">
+    <form id="bookingForm" data-endpoint="/api/bookings">
+      <div class="row2">
+        <div>
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" required placeholder="Full name">
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required placeholder="you@email.com">
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="reading">Reading type</label>
+          <select id="reading" name="reading" required>
+            <option value="">Select one</option>
+            <option>New Moon — Quick Check-In (₹700)</option>
+            <option>Full Moon — Deep Dive (₹1,600)</option>
+            <option>Waning Moon — Love & Connection (₹1,100)</option>
+          </select>
+        </div>
+        <div>
+          <label for="date">Preferred date</label>
+          <input id="date" name="date" type="date" required>
+        </div>
+      </div>
+      <div>
+        <label for="time">Preferred time</label>
+        <input id="time" name="time" type="time" required>
+      </div>
+      <div>
+        <label for="message">What's on your mind? (optional)</label>
+        <textarea id="message" name="message" placeholder="Share the question or situation you'd like the reading to focus on..."></textarea>
+      </div>
+      <button type="submit" class="btn">Confirm booking</button>
+    </form>
+    <div class="confirm" id="confirmMsg">
+      <h3>Your session request is in ✦</h3>
+      <p>Thank you — a confirmation with your video link will be sent to your email shortly. Clear skies until then.</p>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about">
+    <div class="about-badge">read by candlelight, every time</div>
+    <div>
+      <h2>About your reader</h2>
+      <p>Cosmic Connect is a small, independent tarot practice. Every session is read live, one person at a time — no templates, no generic spreads. Just an honest look at what the cards are showing you, and space to talk it through.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">
+    <img src="assets/logo.png" alt="Cosmic Connect" style="width:34px;height:34px;">
+    <span>Cosmic Connect</span>
+  </div>
+  <div class="mono">© 2026 Cosmic Connect · unlock the signs meant for you</div>
+</footer>
+
+<script>
+  const bookingForm = document.getElementById('bookingForm');
+  const confirmMsg = document.getElementById('confirmMsg');
+
+  bookingForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    const payload = Object.fromEntries(new FormData(this).entries());
+    const endpoint = this.dataset.endpoint;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+
+      this.style.display = 'none';
+      confirmMsg.classList.add('show');
+    } catch (error) {
+      console.error('Booking submission failed:', error);
+      alert('Could not send the booking right now. Connect the backend at /api/bookings or update data-endpoint.');
+    }
+  });
+</script>
+
+</body>
+</html>
