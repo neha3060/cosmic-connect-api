@@ -257,6 +257,7 @@
   </div>
   <nav>
     <a href="#readings">Readings</a>
+    <a href="#akashic">Akashic Reading</a>
     <a href="#how">How it works</a>
     <a href="#book">Book</a>
     <a href="#about">About</a>
@@ -266,9 +267,9 @@
 
 <section class="hero">
   <img class="hero-logo" src="assets/logo.png" alt="Cosmic Connect logo">
-  <div class="eyebrow">Tarot · Guidance · Clarity</div>
+  <div class="eyebrow">Akashic Tarot Reading ✨</div>
   <h1>Unlock the signs <em>meant for you.</em></h1>
-  <p class="lede">One-on-one tarot sessions held over video, for the moments you need a clearer read on what's ahead. No jargon, no scripts — just a real conversation with the cards.</p>
+  <p class="lede">Gain clarity. Discover insights. Move forward with confidence. Life often presents questions that don't have easy answers — an Akashic Tarot Reading blends Tarot symbolism with intuitive guidance to help you explore where you stand, notice the patterns at play, and consider the paths still open to you. One honest, one-on-one conversation with the cards — no jargon, no scripts.</p>
   <a href="#book" class="btn">Book a reading</a>
 </section>
 
@@ -278,27 +279,46 @@
     <h2>Every session follows a phase of the moon</h2>
     <p>Pick the depth that matches what you're carrying right now.</p>
   </div>
-  <div class="phases">
+  <div class="phases" style="grid-template-columns:repeat(2, 1fr); max-width:760px;">
     <div class="phase-card">
       <div class="moon"></div>
       <div class="meta">New Moon · 20 min</div>
-      <h3>Quick Check-In</h3>
-      <p>A focused 3-card pull for one question sitting on your mind. Good for a fast, honest read before you decide something.</p>
-      <div class="price">₹700</div>
+      <h3>Quick Check</h3>
+      <p>A focused pull for one question sitting on your mind right now. Good for a fast, honest read before you decide something.</p>
+      <div class="price">₹711</div>
     </div>
     <div class="phase-card">
       <div class="moon full"></div>
-      <div class="meta">Full Moon · 50 min</div>
+      <div class="meta">Full Moon · 40 min</div>
       <h3>Deep Dive</h3>
-      <p>A full spread covering past, present and path forward. We slow down and actually talk through what the cards are showing.</p>
-      <div class="price">₹1,600</div>
+      <p>A fuller spread covering past, present and path forward. We slow down and actually talk through what the cards are showing.</p>
+      <div class="price">₹999</div>
     </div>
-    <div class="phase-card">
-      <div class="moon waning"></div>
-      <div class="meta">Waning Moon · 35 min</div>
-      <h3>Love &amp; Connection</h3>
-      <p>A relationship-focused spread — romantic, family, or friendship. Bring the specific situation and we'll unpack it together.</p>
-      <div class="price">₹1,100</div>
+  </div>
+</section>
+
+<section id="akashic">
+  <div class="section-head">
+    <div class="eyebrow">Akashic Tarot Reading ✨</div>
+    <h2>Seeking clarity in life?</h2>
+    <p>A reflective guidance session combining Tarot symbolism with intuitive insight — to help you explore your circumstances, notice the patterns at play, and consider the paths still open to you.</p>
+  </div>
+
+  <div class="flow" style="margin-bottom:4rem;">
+    <div class="flow-step">
+      <span class="mono">Explore</span>
+      <h3>What we can look at</h3>
+      <p>Career &amp; business decisions · Love, relationships &amp; family · Financial direction · Personal &amp; spiritual growth · Life purpose &amp; soul lessons · Decision-making in uncertain times.</p>
+    </div>
+    <div class="flow-step">
+      <span class="mono">Expect</span>
+      <h3>What a session feels like</h3>
+      <p>A personalised one-on-one reading in a confidential, supportive space — intuitive interpretation of the cards drawn from your own questions, with practical insight you can actually reflect on and use.</p>
+    </div>
+    <div class="flow-step">
+      <span class="mono">Why</span>
+      <h3>Why people choose this</h3>
+      <p>Guidance tailored to your situation, not a generic script. A compassionate, non-judgmental approach that gives you room for self-reflection and a clearer view of what's ahead.</p>
     </div>
   </div>
 </section>
@@ -308,7 +328,7 @@
     <div class="eyebrow">How a session runs</div>
     <h2>Simple, from booking to insight</h2>
   </div>
-  <div class="flow">
+  <div class="flow" style="grid-template-columns:repeat(2, 1fr); max-width:700px;">
     <div class="flow-step">
       <span class="mono">Before</span>
       <h3>You book a slot</h3>
@@ -318,11 +338,6 @@
       <span class="mono">During</span>
       <h3>We meet on video</h3>
       <p>You'll get a link by email. The cards are drawn live — you see and hear everything as it unfolds, no pre-recording.</p>
-    </div>
-    <div class="flow-step">
-      <span class="mono">After</span>
-      <h3>You get a recap</h3>
-      <p>A short written summary of the spread lands in your inbox within a day, so you can sit with it after the call.</p>
     </div>
   </div>
 </section>
@@ -350,9 +365,8 @@
           <label for="reading">Reading type</label>
           <select id="reading" name="reading" required>
             <option value="">Select one</option>
-            <option>New Moon — Quick Check-In (₹700)</option>
-            <option>Full Moon — Deep Dive (₹1,600)</option>
-            <option>Waning Moon — Love & Connection (₹1,100)</option>
+            <option>Quick Check — 20 min (₹711)</option>
+            <option>Deep Dive — 40 min (₹999)</option>
           </select>
         </div>
         <div>
